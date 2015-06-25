@@ -1,32 +1,36 @@
 #carbon_c_relay config
 class carbon_c_relay::config () {
 
-  file { $carbon_c_relay::log_file:
-    ensure      => 'present',
-    owner       => 'www-data',
-    group       => 'www-data',
-  }
+    $daemon_args=join([
+        "-f ${::carbon_c_relay::config_file}",
+        "-p ${::carbon_c_relay::port}",
+        "-w ${::carbon_c_relay::workers}",
+        "-b ${::carbon_c_relay::batch_size}",
+        "-q ${::carbon_c_relay::queue_size}",
+        "-S ${::carbon_c_relay::statistics}",
+        "-H ${::carbon_c_relay::statistics_hostname}",
+        ], '')
 
-  file { '/etc/init.d/relay':
-    ensure      => 'present',
-    owner       => 'root',
-    group       => 'root',
-    mode        => '0755',
-    content     => template('carbon_c_relay/relay.init.erb')
-  }
+        file { $::carbon_c_relay::defaults_file :
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            content => "# MANAGED BY PUPPET!!\nDAEMON_ARGS='${daemon_args}'"
+        }
 
-  concat { $carbon_c_relay::config_file:
-    ensure      => present,
-    owner       => 'root',
-    group       => 'root',
-    mode        => '0644',
-    notify      => Service['relay']
-  }
+        concat { $::carbon_c_relay::config_file:
+            ensure => present,
+            owner  => 'root',
+            group  => 'root',
+            mode   => '0644',
+            notify => Service['carbon-c-relay']
+        }
 
-  concat::fragment { '01-relay-header':
-    target      => $carbon_c_relay::config_file,
-    order       => '01',
-    content     => "# This file managed by Puppet\n",
-  }
+        concat::fragment { '01-relay-header':
+            target  => $::carbon_c_relay::config_file,
+            order   => '01',
+            content => "# This file managed by Puppet\n",
+        }
 
 }

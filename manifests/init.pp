@@ -36,36 +36,36 @@
 # Copyright 2015 Paul O'Connor, unless otherwise noted.
 #
 class carbon_c_relay (
-  $port               = 3003,
-  $config_file        = '/etc/relay.conf',
-  $log_file           = '/var/log/relay.log',
-  $workers            = 0,
-  $batch_size         = 2500,
-  $queue_size         = 25000,
-  $statistics         = 60,
-  $version            = 'latest',
-  ){
+    $port                = 2003,
+    $config_file         = '/etc/carbon-c-relay.conf',
+    $defaults_file       = '/etc/default/carbon-c-relay',
+    $workers             = 8,
+    $batch_size          = 2500,
+    $queue_size          = 25000,
+    $statistics          = 60,
+    $statistics_hostname = $::hostname,
+    $version             = 'latest',
 
-  if !is_numeric($port) {
-    fail('$port must be an integer')
-  }
-  validate_string($config_file)
-  validate_string($log_file)
-  if !is_numeric($workers) {
-    fail('$workers must be an integer')
-  }
-  if !is_numeric($batch_size) {
-    fail('$batch_size must be an integer')
-  }
-  if !is_numeric($queue_size) {
-    fail('$queue_size must be an integer')
-  }
-  if !is_numeric($statistics) {
-    fail('$statistics must be an integer')
-  }
+){
 
-  class { 'carbon_c_relay::install':}->
-  class { 'carbon_c_relay::config':}->
-  class { 'carbon_c_relay::service':}->
-  class { 'carbon_c_relay::maintenance':}
+    if !is_numeric($port) {
+        fail('$port must be an integer')
+    }
+    validate_string($config_file)
+    if !is_numeric($workers) {
+        fail('$workers must be an integer')
+    }
+    if !is_numeric($batch_size) {
+        fail('$batch_size must be an integer')
+    }
+    if !is_numeric($queue_size) {
+        fail('$queue_size must be an integer')
+    }
+    if !is_numeric($statistics) {
+        fail('$statistics must be an integer')
+    }
+
+    class { 'carbon_c_relay::install':}->
+    class { 'carbon_c_relay::config':}->
+    class { 'carbon_c_relay::service':}
 }
