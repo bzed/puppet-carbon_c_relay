@@ -17,7 +17,7 @@ class carbon_c_relay::config () {
             group   => 'root',
             mode    => '0644',
             content => "# MANAGED BY PUPPET!!\nDAEMON_ARGS='${daemon_args}'",
-            nofify  => Service['carbon-c-relay.service']
+            notify  => Service['carbon-c-relay.service']
         }
 
         concat { $::carbon_c_relay::config_file:
