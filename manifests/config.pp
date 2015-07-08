@@ -9,7 +9,7 @@ class carbon_c_relay::config () {
         "-q ${::carbon_c_relay::queue_size}",
         "-S ${::carbon_c_relay::statistics}",
         "-H ${::carbon_c_relay::statistics_hostname}",
-        ], '')
+        ], ' ')
 
         file { $::carbon_c_relay::defaults_file :
             ensure  => present,
