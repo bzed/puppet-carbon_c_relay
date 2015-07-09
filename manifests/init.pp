@@ -29,11 +29,14 @@
 #
 # === Authors
 #
-# Paul O'Connor <author@domain.com>
+# Paul O'Connor
+# Bernd Zeimetz <b.zeimetz@conova.com>
 #
 # === Copyright
 #
-# Copyright 2015 Paul O'Connor, unless otherwise noted.
+# Copyright 2015 Paul O'Connor
+# Copyright 2015 Bernd Zeimetz <b.zeimetz@conova.com>
+#    unless otherwise noted.
 #
 class carbon_c_relay (
     $port                = 2003,
