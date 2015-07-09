@@ -7,6 +7,7 @@ define carbon_c_relay::match(
     $rule                      = '*',
     $send_to                   = 'blackhole',
     $stop                      = false,
+    $order                     = '90'
 ) {
 
     validate_string($send_to)
@@ -17,6 +18,6 @@ define carbon_c_relay::match(
     concat::fragment { "c_config/match-${title}":
         target  => $carbon_c_relay::config_file,
         content => template('carbon_c_relay/config/match.erb'),
-        order   => '20',
+        order   => $order,
     }
 }

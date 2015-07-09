@@ -15,6 +15,7 @@ define carbon_c_relay::aggregate(
     $expiration     = 300,
     $compute        = 'sum',
     $metric         = '',
+    $order          = '40'
 ) {
 
     validate_re($compute, '^(sum|count|max|min|average)$')
@@ -31,6 +32,6 @@ define carbon_c_relay::aggregate(
     concat::fragment { "d_config/rewrite-${title}":
         target  => $carbon_c_relay::config_file,
         content => template('carbon_c_relay/config/aggregate.erb'),
-        order   => '40',
+        order   => $order,
     }
 }

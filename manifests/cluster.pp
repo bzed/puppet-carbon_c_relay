@@ -8,6 +8,7 @@ define carbon_c_relay::cluster(
     $forward_proto              = 'forward',
     $replication_factor         = 1,
     $hosts                      = [],
+    $order                      = '05'
 ) {
 
     validate_string($cluster_name)
@@ -20,6 +21,6 @@ define carbon_c_relay::cluster(
     concat::fragment { "a_config/cluster-${title}":
         target  => $carbon_c_relay::config_file,
         content => template('carbon_c_relay/config/cluster.erb'),
-        order   => '05',
+        order   => $order,
     }
 }
