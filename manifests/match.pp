@@ -7,7 +7,9 @@ define carbon_c_relay::match(
     $rule                      = '*',
     $send_to                   = 'blackhole',
     $stop                      = false,
-    $order                     = '90'
+    $order                     = '90',
+    $validate                  = undef,
+    $validate_else             = 'drop',
 ) {
 
     validate_string($send_to)
